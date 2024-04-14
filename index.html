@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learnings</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="study w-full  bg-blue-400 flex flex-col justify-center item-center p-4">
+        <h1 class="text-xl font-bolder">What To Study?</h1>
+        <button class="p-3 my-2 bg-green-400" onclick="getToStudy()">Search </button>
+        <p id="study" class="text-red-300 text-lg"></p>
+
+    </div>
+    <div class="page">
+
+        <div class="percent">
+            <div class="text">
+                <h1>
+                   Striver DSA completed
+                </h1>
+            </div>
+            <div class="circle" id="circle">
+                <div id="per">0%</div>
+            </div>
+            <p id="perText"></p>
+            <div class="add">
+                <button id="plus">+</button>
+                <input type="number" id="num" onchange="handleNum()">
+                <button id="minus">-</button>
+            </div>
+        </div>
+        
+        <div class="pl flex flex-col percent">
+           <h1 class="text-lg text-purple-300">
+            PL section
+           </h1>
+           <ul>
+            <li>
+                <a href="https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" target="_blank"> D.S.A </a>
+            </li>
+            <li>Web Dev concepts (redux etc..)</li>
+            <li>
+                <a href="https://youtube.com/playlist?list=PLBGx66SQNZ8aPsFDwb79JrS2KQBTIZo10&si=m_B-EgUpNPGTvk3A" target="_blank"> DevOps </a>
+            </li>
+            <li>
+                <a href="https://youtu.be/bSrm9RXwBaI?si=r-23AgaPVY2RUYZy" target="_blank"> Java Oops </a>
+            </li>
+            <li>
+                C++ oops
+                <ul>
+                    <li><a href="https://youtu.be/i_5pvt7ag7E?si=EDsKZXhmoCL49R8V">L-1</a></li>
+                    <li><a href="https://youtu.be/b3GccK5_KSQ?si=BpKpBZqd8XMZW1o1">L-2</a></li>
+                    
+                </ul>
+                <a href="https://youtu.be/bSrm9RXwBaI?si=r-23AgaPVY2RUYZy" target="_blank"> Java Oops </a>
+            </li>
+            <li>O.S/Linux</li>
+            <li>
+                <a href="https://youtu.be/Ga5kRSu-W5Y?si=sKjy2kJqX1cVRERK" target="_blank">Java SpringBoot </a>
+            </li>
+
+           </ul>
+        </div>
+
+        <div class="cl flex flex-col percent">
+            <h1 class="text-lg text-purple-300">
+                CL section
+            </h1>
+            <ul >
+            <li>
+                <a href="https://youtube.com/playlist?list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_&si=IZxDYp1qyZYfHzTC" target="_blank"> C.N</a>
+            </li>
+            <li>
+                <a href="https://youtube.com/playlist?list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y&si=-Y7Oq8vd7zD7aro3" target="_blank"> D.B.M.S </a>
+            </li>
+            <li>
+                <a href="https://youtube.com/playlist?list=PLxCzCOWd7aiFM9Lj5G9G_76adtyb4ef7i&si=-jCj2HFIQsZs4vmu" target="_blank"> Automata </a>
+            </li>
+            <li>
+                <a href="https://youtube.com/playlist?list=PLxCzCOWd7aiEKtKSIHYusizkESC42diyc&si=t-_i2NspXi1XW0r0" target="_blank">  C.D </a>
+            </li>
+            <li>
+                <a href="https://youtu.be/3zOtLEeHygg?si=kS361zkNPe3EsU4Y" target="_blank"> D.M.S </a>
+            </li>
+            <li>Python</li>
+            <li>Project</li>
+            </ul>
+        </div>
+        
+         
+    </div>
+    
+</body>
+<script src="script.js"></script>
+<script src="whatToStudy.js"></script>
+</html>
