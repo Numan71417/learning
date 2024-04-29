@@ -1,141 +1,44 @@
-CREATE TABLE PUBLISHER 
-
-(NAME VARCHAR2 (20) PRIMARY KEY, 
-
-PHONE INTEGER, 
-
-ADDRESS VARCHAR2 (20)); 
-
-CREATE TABLEBOOK 
-
-(BOOK_ID INTEGER PRIMARYKEY, 
-
-TITLE VARCHAR2(20), 
-
-PUB_YEAR VARCHAR2 (20), 
-
-PUBLISHER_NAME REFERENCES PUBLISHER (NAME) ON DELETE CASCADE);
-
-CREATE TABLE BOOK_AUTHORS 
-
-(AUTHOR_NAME VARCHAR2 (20), 
-
-BOOK_ID REFERENCES BOOK (BOOK_ID) ON DELETE CASCADE, 
-
-PRIMARY KEY (BOOK_ID, AUTHOR_NAME)); 
-
-CREATE TABLE LIBRARY_BRANCH (BRANCH_ID 
-
-INTEGER PRIMARY KEY, BRANCH_NAME VARCHAR2 
-
-(50), 
-
-ADDRESS VARCHAR2 (50)); 
-
-CREATE TABLE BOOK_COPIES 
-
-(NO_OF_COPIES INTEGER, 
-
-BOOK_ID REFERENCES BOOK (BOOK_ID) ON DELETE CASCADE, 
-
-BRANCH_ID REFERENCES LIBRARY_BRANCH (BRANCH_ID) ON DELETE 
-
-CASCADE, 
-
-PRIMARY KEY (BOOK_ID, BRANCH_ID)); 
-
-CREATE TABLE CARD 
-
-(CARD_NO INTEGER PRIMARY KEY); 
-
-CREATE TABLE BOOK_LENDING 
-
-(DATE_OUT DATE, 
-
-DUE_DATE DATE, 
-
-BOOK_ID REFERENCES BOOK (BOOK_ID) ON DELETE CASCADE, 
-
-BRANCH_ID REFERENCES LIBRARY_BRANCH (BRANCH_ID) ON DELETE 
-
-CASCADE, 
-
-CARD_NO REFERENCES CARD (CARD_NO) ON DELETE CASCADE, 
-
-PRIMARY KEY (BOOK_ID, BRANCH_ID, CARD_NO));
-
-INSERT INTO PUBLISHER VALUES (‗MCGRAW-HILL‘, 9989076587, ‗BANGALORE‘); 
-
-INSERT INTO PUBLISHER VALUES (‗PEARSON‘, 9889076565, ‗NEWDELHI‘); 
-
-INSERT INTO PUBLISHER VALUES (‗RANDOM HOUSE‘, 7455679345, ‗HYDRABAD‘); INSERT 
-
-INTO PUBLISHER VALUES (‗HACHETTE LIVRE‘, 8970862340, ‗CHENAI‘); 
-
-INSERTINTOPUBLISHERVALUES(‗GRUPOPLANETA‘,7756120238,‗BANGALORE‘); 
-
-INSERT INTO BOOK VALUES (1,‘DBMS‘,‘JAN-2017‘, ‗MCGRAW-HILL‘); INSERT INTO 
-
-BOOK VALUES (2,‘ADBMS‘,‘JUN-2016‘, ‗MCGRAW-HILL‘); INSERT INTO BOOK 
-
-VALUES (3,‘CN‘,‘SEP-2016‘, ‗PEARSON‘); 
-
-INSERT INTO BOOK VALUES (4,‘CG‘,‘SEP-2015‘, ‗GRUPO PLANETA‘); INSERT 
-
-INTO BOOK VALUES (5,‘OS‘,‘MAY-2016‘, ‗PEARSON‘); 
-
-INSERT INTO BOOK_AUTHORS VALUES (‘NAVATHE‘, 1); INSERT INTO 
-
-BOOK_AUTHORS VALUES (‘NAVATHE‘, 2); INSERT INTO 
-
-BOOK_AUTHORS VALUES (‘TANENBAUM‘, 3); INSERT INTO 
-
-BOOK_AUTHORS VALUES (‘EDWARD ANGEL‘, 4); INSERT INTO 
-
-BOOK_AUTHORS VALUES (‘GALVIN‘, 5); 
-
-INSERT INTO LIBRARY_BRANCH VALUES (10,‘RR NAGAR‘,‘BANGALORE‘); INSERT 
-
-INTO LIBRARY_BRANCH VALUES (11,‘RNSIT‘,‘BANGALORE‘); 
-
-INSERT INTO LIBRARY_BRANCH VALUES (12,‘RAJAJI NAGAR‘, ‘BANGALORE‘); INSERT INTO 
-
-LIBRARY_BRANCH VALUES (13,‘NITTE‘,‘MANGALORE‘); 
-
-INSERT INTO LIBRARY_BRANCH VALUES (14,‘MANIPAL‘,‘UDUPI‘); 
-
-INSERT INTO BOOK_COPIES VALUES (10, 1, 10); 
-
-INSERT INTO BOOK_COPIES VALUES (5, 1,11); 
-
-INSERT INTO BOOK_COPIES VALUES (2, 2,12); 
-
-INSERT INTO BOOK_COPIES VALUES (5, 2,13); 
-
-INSERT INTO BOOK_COPIES VALUES (7, 3,14); 
-
-INSERT INTO BOOK_COPIES VALUES (1, 5,10); 
-
-INSERT INTO BOOK_COPIES VALUES (3, 4,11); 
-
-INSERT INTO CARD VALUES (100); 
-
-INSERT INTO CARD VALUES (101); 
-
-INSERT INTO CARD VALUES (102); 
-
-INSERT INTO CARD VALUES (103); 
-
-INSERT INTO CARD VALUES (104);
-
-INSERT INTO BOOK_LENDING VALUES (‘01-JAN-17‘,‘01-JUN-17‘, 1, 10, 101); 
-
-INSERT INTO BOOK_LENDING VALUES (‘11-JAN-17‘,‘11-MAR-17‘, 3, 14, 101); 
-
-INSERT INTO BOOK_LENDING VALUES (‘21-FEB-17‘,‘21-APR-17‘, 2, 13, 101); 
-
-INSERT INTO BOOK_LENDING VALUES (‘15-MAR-17‘,‘15-JUL-17‘, 4, 11, 101); 
-
-INSERT INTO BOOK_LENDING VALUES (‗12-APR-17‘,‘12-MAY-17‘, 1, 11, 104); 
-
-SELECT * FROM PUBLISHER;
+from bs4 import BeautifulSoup
+import requests
+import random
+
+
+def get_imd_movies(url):
+    page = requests.get(url)
+    #print(page.text)
+    soup = BeautifulSoup(page.text, 'html.parser')
+    #print(soup)
+    movies = soup.find_all("td", class_="titleColumn")
+    #print(movies)
+    random.shuffle(movies)
+    return movies
+
+
+def get_imd_summary(url):
+    movie_page = requests.get(url)
+    soup = BeautifulSoup(movie_page.text, 'html.parser')
+    return soup.find("div", class_="summary_text").contents[0].strip()
+
+
+def get_imd_movie_info(movie):
+    movie_title = movie.a.contents[0]
+    movie_year = movie.span.contents[0]
+    movie_url = 'http://www.imdb.com' + movie.a['href']
+    return movie_title, movie_year, movie_url
+
+
+def imd_movie_picker():
+    ctr = 0
+    print("--------------------------------------------")
+    for movie in get_imd_movies('http://www.imdb.com/chart/top'):
+        movie_title, movie_year, movie_url = get_imd_movie_info(movie)
+        movie_summary = get_imd_summary(movie_url)
+        print(movie_title, movie_year)
+        print(movie_summary)
+        print("--------------------------------------------")
+        ctr = ctr + 1
+        if (ctr == 10):
+            break;
+
+
+imd_movie_picker()
